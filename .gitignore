@@ -1,0 +1,30 @@
+# 音频文件
+static/audio/
+*.wav
+
+# IDE 和编辑器文件
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# 依赖目录
+node_modules/
+unpackage/
+
+# 日志文件
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# 本地环境文件
+.env
+.env.local
+.env.*.local
+
+# 编译输出
+dist/
+build/
+.hbuilderx/ 

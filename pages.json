@@ -1,0 +1,89 @@
+{
+	"pages": [
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "PCDear-Training"
+			}
+		},
+		{
+			"path": "pages/exercises/harmonic-seconds/harmonic-seconds",
+			"style": {
+				"navigationBarTitleText": "Harmonic: Seconds"
+			}
+		},
+		{
+			"path": "pages/exercises/harmonic-thirds/harmonic-thirds",
+			"style": {
+				"navigationBarTitleText": "Harmonic: Thirds"
+			}
+		},
+		{
+			"path": "pages/exercises/harmonic-fourths-fifths/harmonic-fourths-fifths",
+			"style": {
+				"navigationBarTitleText": "Harmonic: Fourths and Fifths"
+			}
+		},
+		{
+			"path": "pages/exercises/harmonic-sixths/harmonic-sixths",
+			"style": {
+				"navigationBarTitleText": "Harmonic: Sixths"
+			}
+		},
+		{
+			"path": "pages/exercises/harmonic-sevenths/harmonic-sevenths",
+			"style": {
+				"navigationBarTitleText": "Harmonic: Sevenths"
+			}
+		},
+		{
+			"path": "pages/exercises/harmonic-tritones-major-sevenths/harmonic-tritones-major-sevenths",
+			"style": {
+				"navigationBarTitleText": "Harmonic: Tritones and Major Sevenths"
+			}
+		},
+		{
+			"path": "pages/exercises/melodic-seconds/melodic-seconds",
+			"style": {
+				"navigationBarTitleText": "Melodic: Seconds"
+			}
+		},
+		{
+			"path": "pages/exercises/melodic-thirds/melodic-thirds",
+			"style": {
+				"navigationBarTitleText": "Melodic: Thirds"
+			}
+		},
+		{
+			"path": "pages/exercises/melodic-fourths-fifths/melodic-fourths-fifths",
+			"style": {
+				"navigationBarTitleText": "Melodic: Fourths and Fifths"
+			}
+		},
+		{
+			"path": "pages/exercises/melodic-sevenths/melodic-sevenths",
+			"style": {
+				"navigationBarTitleText": "Melodic: Sevenths"
+			}
+		},
+		{
+			"path": "pages/exercises/all-melodic-intervals/all-melodic-intervals",
+			"style": {
+				"navigationBarTitleText": "All Melodic Intervals"
+			}
+		},
+		{
+			"path": "pages/exercises/all-harmonic-intervals/all-harmonic-intervals",
+			"style": {
+				"navigationBarTitleText": "All Harmonic Intervals"
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "PCDear-Training",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	},
+	"uniIdRouter": {}
+}

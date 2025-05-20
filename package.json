@@ -1,0 +1,12 @@
+{
+  "name": "pcdear-training",
+  "version": "1.0.0",
+  "description": "A WeChat Mini Program for ear training",
+  "scripts": {
+    "generate-notes": "node scripts/generateNotes.js",
+    "generate-intervals": "node scripts/generateIntervals.js"
+  },
+  "dependencies": {
+    "tone": "^14.7.77"
+  }
+} 

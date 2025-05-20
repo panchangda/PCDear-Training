@@ -1,0 +1,26 @@
+<template>
+  <view class="container">
+    <IntervalExercise
+      title="Harmonic Sixths"
+      description="听辨和声小六度和大六度音程"
+      category="sixths"
+      :isHarmonic="true"
+    />
+  </view>
+</template>
+
+<script>
+import IntervalExercise from '../../../components/IntervalExercise.vue';
+
+export default {
+  components: {
+    IntervalExercise
+  }
+};
+</script>
+
+<style>
+.container {
+  padding: 20px;
+}
+</style>

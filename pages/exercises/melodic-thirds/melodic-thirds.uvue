@@ -1,0 +1,26 @@
+<template>
+  <view class="container">
+    <IntervalExercise
+      title="Melodic Thirds"
+      description="听辨旋律小三度和大三度音程"
+      category="thirds"
+      :isHarmonic="false"
+    />
+  </view>
+</template>
+
+<script>
+import IntervalExercise from '../../../components/IntervalExercise.vue';
+
+export default {
+  components: {
+    IntervalExercise
+  }
+};
+</script>
+
+<style>
+.container {
+  padding: 20px;
+}
+</style> 

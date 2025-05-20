@@ -1,0 +1,99 @@
+<template>
+	<view class="container">
+		<view class="header">
+			<text class="title">PCDear-Training</text>
+			<text class="subtitle">视唱练耳训练小程序</text>
+		</view>
+		
+		<view class="section">
+			<text class="section-title">音程练习</text>
+			<view class="exercise-grid">
+				<view v-for="(exercise, index) in exercises" :key="index" class="exercise-item" @click="navigateToExercise(exercise.id)">
+					<text class="exercise-title">{{exercise.title}}</text>
+				</view>
+			</view>
+		</view>
+	</view>
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+				exercises: [
+					{ id: 'harmonic-seconds', title: 'Harmonic: Seconds' },
+					{ id: 'harmonic-thirds', title: 'Harmonic: Thirds' },
+					{ id: 'harmonic-fourths-fifths', title: 'Harmonic: Fourths and Fifths' },
+					{ id: 'harmonic-sixths', title: 'Harmonic: Sixths' },
+					{ id: 'harmonic-sevenths', title: 'Harmonic: Sevenths' },
+					{ id: 'harmonic-tritones-major-sevenths', title: 'Harmonic: Tritones and Major Sevenths' },
+					{ id: 'melodic-seconds', title: 'Melodic: Seconds' },
+					{ id: 'melodic-thirds', title: 'Melodic: Thirds' },
+					{ id: 'melodic-fourths-fifths', title: 'Melodic: Fourths and Fifths' },
+					{ id: 'melodic-sevenths', title: 'Melodic: Sevenths' },
+					{ id: 'all-melodic-intervals', title: 'All Melodic Intervals' },
+					{ id: 'all-harmonic-intervals', title: 'All Harmonic Intervals' }
+				]
+			}
+		},
+		onLoad() {
+			// Page initialization
+		},
+		methods: {
+			navigateToExercise(id) {
+				uni.navigateTo({
+					url: `/pages/exercises/${id}/${id}`
+				});
+			}
+		}
+	}
+</script>
+
+<style>
+	.container {
+		padding: 20px;
+	}
+	
+	.header {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		margin-bottom: 40px;
+	}
+	
+	.title {
+		font-size: 24px;
+		font-weight: bold;
+		color: #333;
+		margin-bottom: 10px;
+	}
+	
+	.subtitle {
+		font-size: 16px;
+		color: #666;
+	}
+	
+	.section-title {
+		font-size: 18px;
+		font-weight: bold;
+		margin-bottom: 15px;
+		color: #333;
+	}
+	
+	.exercise-grid {
+		display: flex;
+		flex-direction: column;
+	}
+	
+	.exercise-item {
+		background-color: #f0f0f0;
+		border-radius: 8px;
+		padding: 15px;
+		margin-bottom: 10px;
+	}
+	
+	.exercise-title {
+		font-size: 16px;
+		color: #333;
+	}
+</style>

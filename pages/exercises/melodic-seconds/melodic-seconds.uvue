@@ -1,0 +1,26 @@
+<template>
+  <view class="container">
+    <IntervalExercise
+      title="Melodic Seconds"
+      description="听辨旋律小二度和大二度音程"
+      category="seconds"
+      :isHarmonic="false"
+    />
+  </view>
+</template>
+
+<script>
+import IntervalExercise from '../../../components/IntervalExercise.vue';
+
+export default {
+  components: {
+    IntervalExercise
+  }
+};
+</script>
+
+<style>
+.container {
+  padding: 20px;
+}
+</style> 
