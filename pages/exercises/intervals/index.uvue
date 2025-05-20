@@ -1,0 +1,133 @@
+<template>
+  <scroll-view class="container" scroll-y="true">
+    <view class="header">
+      <text class="title">音程训练</text>
+      <text class="subtitle">选择训练类型</text>
+    </view>
+
+    <!-- 和声音程训练 -->
+    <view class="section">
+      <text class="section-title">和声音程</text>
+      <view class="exercise-grid">
+        <view
+          v-for="exercise in harmonicExercises"
+          :key="exercise.id"
+          class="exercise-item"
+          @click="navigateToExercise(exercise.id)"
+        >
+          <text class="exercise-title">{{ exercise.title }}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 旋律音程训练 -->
+    <view class="section">
+      <text class="section-title">旋律音程</text>
+      <view class="exercise-grid">
+        <view
+          v-for="exercise in melodicExercises"
+          :key="exercise.id"
+          class="exercise-item"
+          @click="navigateToExercise(exercise.id)"
+        >
+          <text class="exercise-title">{{ exercise.title }}</text>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      harmonicExercises: [
+        { id: 'harmonic-seconds', title: '和声二度' },
+        { id: 'harmonic-thirds', title: '和声三度' },
+        { id: 'harmonic-fourths-fifths', title: '和声四度与五度' },
+        { id: 'harmonic-sixths', title: '和声六度' },
+        { id: 'harmonic-sevenths', title: '和声七度' },
+        { id: 'harmonic-tritones-major-sevenths', title: '和声三全音与大七度' },
+        { id: 'all-harmonic-intervals', title: '所有和声音程' }
+      ],
+      melodicExercises: [
+        { id: 'melodic-seconds', title: '旋律二度' },
+        { id: 'melodic-thirds', title: '旋律三度' },
+        { id: 'melodic-fourths-fifths', title: '旋律四度与五度' },
+        { id: 'melodic-sixths', title: '旋律六度' },
+        { id: 'melodic-sevenths', title: '旋律七度' },
+        { id: 'all-melodic-intervals', title: '所有旋律音程' }
+      ]
+    };
+  },
+  methods: {
+    navigateToExercise(id) {
+      uni.navigateTo({
+        url: `/pages/exercises/intervals/${id}`
+      });
+    }
+  }
+};
+</script>
+
+<style>
+.container {
+  height: 100% ; /* 或者设置为 100% 并确保外层没有限制 */
+  flex: 1;
+  padding: 20px;
+  background-color: #f5f5f5;
+}
+
+.header {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: bold;
+  color: #333;
+}
+
+.subtitle {
+  font-size: 16px;
+  color: #666;
+  margin-top: 5px;
+}
+
+.section {
+  margin-bottom: 30px;
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.exercise-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.exercise-item {
+  background-color: white;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.exercise-title {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.exercise-description {
+  font-size: 14px;
+  color: #666;
+}
+</style>

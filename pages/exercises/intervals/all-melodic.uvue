@@ -1,0 +1,26 @@
+<template>
+  <view class="container">
+    <IntervalExercise
+      title="All Melodic Intervals"
+      description="听辨所有旋律音程"
+      category="all-intervals"
+      :isHarmonic="false"
+    />
+  </view>
+</template>
+
+<script>
+import IntervalExercise from '../../../components/IntervalExercise.vue';
+
+export default {
+  components: {
+    IntervalExercise
+  }
+};
+</script>
+
+<style>
+.container {
+  padding: 20px;
+}
+</style> 

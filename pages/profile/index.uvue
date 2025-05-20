@@ -1,0 +1,318 @@
+<template>
+  <scroll-view class="container" scroll-y=true>
+    <view class="header">
+      <text class="title">我的训练</text>
+    </view>
+    
+    <!-- 今日统计 -->
+    <view class="stats-section">
+      <text class="section-title">今日统计</text>
+      <view class="stats-card">
+        <view class="stat-item">
+          <text class="stat-value">{{ stats.today.overall.accuracy }}%</text>
+          <text class="stat-label">平均准确率</text>
+        </view>
+        <view class="stat-item">
+          <text class="stat-value">{{ stats.today.overall.total }}</text>
+          <text class="stat-label">训练次数</text>
+        </view>
+      </view>
+    </view>
+    
+    <!-- 总体统计 -->
+    <view class="stats-section">
+      <text class="section-title">总体统计</text>
+      <view class="stats-card">
+        <view class="stat-item">
+          <text class="stat-value">{{ stats.total.overall.accuracy }}%</text>
+          <text class="stat-label">平均准确率</text>
+        </view>
+        <view class="stat-item">
+          <text class="stat-value">{{ stats.total.overall.total }}</text>
+          <text class="stat-label">总训练次数</text>
+        </view>
+      </view>
+    </view>
+    
+    <!-- 详细统计 -->
+    <view class="stats-section">
+      <text class="section-title">详细统计</text>
+      
+      <!-- 音程训练统计 -->
+      <view class="detail-card">
+        <text class="detail-title">音程训练</text>
+        <view class="detail-tabs">
+          <view 
+            class="tab" 
+            :class="{ active: activeTab === 'today' }"
+            @click="activeTab = 'today'"
+          >
+            <text>今日</text>
+          </view>
+          <view 
+            class="tab" 
+            :class="{ active: activeTab === 'total' }"
+            @click="activeTab = 'total'"
+          >
+            <text>总计</text>
+          </view>
+        </view>
+        <view class="detail-stats">
+          <view class="detail-stat">
+            <text class="stat-label">准确率</text>
+            <text class="stat-value">
+              {{ activeTab === 'today' ? stats.today.intervals.accuracy : stats.total.intervals.accuracy }}%
+            </text>
+          </view>
+          <view class="detail-stat">
+            <text class="stat-label">训练次数</text>
+            <text class="stat-value">
+              {{ activeTab === 'today' ? stats.today.intervals.total : stats.total.intervals.total }}
+            </text>
+          </view>
+        </view>
+      </view>
+      
+      <!-- 三和弦训练统计 -->
+      <view class="detail-card">
+        <text class="detail-title">三和弦训练</text>
+        <view class="detail-tabs">
+          <view 
+            class="tab" 
+            :class="{ active: activeTab === 'today' }"
+            @click="activeTab = 'today'"
+          >
+            <text>今日</text>
+          </view>
+          <view 
+            class="tab" 
+            :class="{ active: activeTab === 'total' }"
+            @click="activeTab = 'total'"
+          >
+            <text>总计</text>
+          </view>
+        </view>
+        <view class="detail-stats">
+          <view class="detail-stat">
+            <text class="stat-label">准确率</text>
+            <text class="stat-value">
+              {{ activeTab === 'today' ? stats.today.triads.accuracy : stats.total.triads.accuracy }}%
+            </text>
+          </view>
+          <view class="detail-stat">
+            <text class="stat-label">训练次数</text>
+            <text class="stat-value">
+              {{ activeTab === 'today' ? stats.today.triads.total : stats.total.triads.total }}
+            </text>
+          </view>
+        </view>
+      </view>
+      
+      <!-- 七和弦训练统计 -->
+      <view class="detail-card">
+        <text class="detail-title">七和弦训练</text>
+        <view class="detail-tabs">
+          <view 
+            class="tab" 
+            :class="{ active: activeTab === 'today' }"
+            @click="activeTab = 'today'"
+          >
+            <text>今日</text>
+          </view>
+          <view 
+            class="tab" 
+            :class="{ active: activeTab === 'total' }"
+            @click="activeTab = 'total'"
+          >
+            <text>总计</text>
+          </view>
+        </view>
+        <view class="detail-stats">
+          <view class="detail-stat">
+            <text class="stat-label">准确率</text>
+            <text class="stat-value">
+              {{ activeTab === 'today' ? stats.today.seventhChords.accuracy : stats.total.seventhChords.accuracy }}%
+            </text>
+          </view>
+          <view class="detail-stat">
+            <text class="stat-label">训练次数</text>
+            <text class="stat-value">
+              {{ activeTab === 'today' ? stats.today.seventhChords.total : stats.total.seventhChords.total }}
+            </text>
+          </view>
+        </view>
+      </view>
+    </view>
+    
+  </scroll-view>
+</template>
+
+<script>
+import statisticsService from '../../utils/statisticsService.js';
+
+export default {
+  data() {
+    return {
+      stats: {
+        today: {
+          overall: { accuracy: 0, total: 0 },
+          intervals: { accuracy: 0, total: 0 },
+          triads: { accuracy: 0, total: 0 },
+          seventhChords: { accuracy: 0, total: 0 }
+        },
+        total: {
+          overall: { accuracy: 0, total: 0 },
+          intervals: { accuracy: 0, total: 0 },
+          triads: { accuracy: 0, total: 0 },
+          seventhChords: { accuracy: 0, total: 0 }
+        }
+      },
+      activeTab: 'today' // 'today' or 'total'
+    };
+  },
+  
+  onShow() {
+    this.loadStats();
+  },
+  
+  methods: {
+    navigateTo(url) {
+      uni.navigateTo({
+        url: url
+      });
+    },
+    
+    loadStats() {
+      // 使用统计服务获取最新的统计数据
+      this.stats = statisticsService.getStatsSummary();
+    }
+  }
+};
+</script>
+
+<style>
+.container {
+  flex: 1;
+  padding: 20px;
+  background-color: #f5f5f5;
+  padding-bottom: 70px; /* 为底部导航栏留出空间 */
+}
+
+.header {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: bold;
+  color: #333;
+}
+
+.stats-section {
+  margin-bottom: 30px;
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.stats-card {
+  background-color: white;
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  justify-content: space-around;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 24px;
+  font-weight: bold;
+  color: #2196F3;
+  display: block;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: #666;
+  margin-top: 5px;
+}
+
+.detail-card {
+  background-color: white;
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.detail-title {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.detail-tabs {
+  display: flex;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 10px;
+}
+
+.tab {
+  flex: 1;
+  text-align: center;
+  padding: 10px;
+  color: #666;
+  font-size: 14px;
+}
+
+.tab.active {
+  color: #2196F3;
+  border-bottom: 2px solid #2196F3;
+}
+
+.detail-stats {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 10px;
+}
+
+.detail-stat {
+  text-align: center;
+}
+
+.tab-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 50px;
+  background-color: white;
+  display: flex;
+  border-top: 1px solid #eee;
+}
+
+.tab-item {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tab-item.active {
+  color: #2196F3;
+}
+
+.tab-text {
+  font-size: 14px;
+}
+</style> 

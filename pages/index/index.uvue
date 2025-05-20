@@ -1,18 +1,52 @@
 <template>
 	<view class="container">
+		<!-- 顶部标题 -->
 		<view class="header">
 			<text class="title">PCDear-Training</text>
-			<text class="subtitle">视唱练耳训练小程序</text>
+			<text class="subtitle">音乐听力训练</text>
 		</view>
 		
-		<view class="section">
-			<text class="section-title">音程练习</text>
-			<view class="exercise-grid">
-				<view v-for="(exercise, index) in exercises" :key="index" class="exercise-item" @click="navigateToExercise(exercise.id)">
-					<text class="exercise-title">{{exercise.title}}</text>
+		<!-- 训练类型选择 -->
+		<view class="training-types">
+			<view class="type-card" @click="navigateTo('/pages/exercises/intervals/index')">
+				<text class="type-title">音程训练</text>
+				<text class="type-description">练习识别各种音程</text>
+				<view class="stats-preview">
+					<text>准确率: {{ stats.intervals.accuracy }}%</text>
+					<text>训练次数: {{ stats.intervals.attempts }}</text>
+				</view>
+			</view>
+			
+			<view class="type-card" @click="navigateTo('/pages/exercises/triads/index')">
+				<text class="type-title">三和弦训练</text>
+				<text class="type-description">练习识别各种三和弦</text>
+				<view class="stats-preview">
+					<text>准确率: {{ stats.triads.accuracy }}%</text>
+					<text>训练次数: {{ stats.triads.attempts }}</text>
+				</view>
+			</view>
+			
+			<view class="type-card" @click="navigateTo('/pages/exercises/seventh-chords/index')">
+				<text class="type-title">七和弦训练</text>
+				<text class="type-description">练习识别各种七和弦</text>
+				<view class="stats-preview">
+					<text>准确率: {{ stats.seventhChords.accuracy }}%</text>
+					<text>训练次数: {{ stats.seventhChords.attempts }}</text>
 				</view>
 			</view>
 		</view>
+		
+		<!-- 底部导航栏 
+		<!--
+		<view class="tab-bar">
+			<view class="tab-item active">
+				<text class="tab-text">首页</text>
+			</view>
+			<view class="tab-item" @click="navigateTo('/pages/profile/index')">
+				<text class="tab-text">我的</text>
+			</view>
+		</view>
+		-->
 	</view>
 </template>
 
@@ -20,30 +54,41 @@
 	export default {
 		data() {
 			return {
-				exercises: [
-					{ id: 'harmonic-seconds', title: 'Harmonic: Seconds' },
-					{ id: 'harmonic-thirds', title: 'Harmonic: Thirds' },
-					{ id: 'harmonic-fourths-fifths', title: 'Harmonic: Fourths and Fifths' },
-					{ id: 'harmonic-sixths', title: 'Harmonic: Sixths' },
-					{ id: 'harmonic-sevenths', title: 'Harmonic: Sevenths' },
-					{ id: 'harmonic-tritones-major-sevenths', title: 'Harmonic: Tritones and Major Sevenths' },
-					{ id: 'melodic-seconds', title: 'Melodic: Seconds' },
-					{ id: 'melodic-thirds', title: 'Melodic: Thirds' },
-					{ id: 'melodic-fourths-fifths', title: 'Melodic: Fourths and Fifths' },
-					{ id: 'melodic-sevenths', title: 'Melodic: Sevenths' },
-					{ id: 'all-melodic-intervals', title: 'All Melodic Intervals' },
-					{ id: 'all-harmonic-intervals', title: 'All Harmonic Intervals' }
-				]
+				stats: {
+					intervals: {
+						accuracy: 0,
+						attempts: 0
+					},
+					triads: {
+						accuracy: 0,
+						attempts: 0
+					},
+					seventhChords: {
+						accuracy: 0,
+						attempts: 0
+					}
+				}
 			}
 		},
-		onLoad() {
-			// Page initialization
+		
+		onShow() {
+			// 从本地存储加载统计数据
+			this.loadStats();
 		},
+		
 		methods: {
-			navigateToExercise(id) {
+			navigateTo(url) {
 				uni.navigateTo({
-					url: `/pages/exercises/${id}/${id}`
+					url: url
 				});
+			},
+			
+			loadStats() {
+				// 从本地存储加载统计数据
+				const stats = uni.getStorageSync('training_stats');
+				if (stats) {
+					this.stats = JSON.parse(stats);
+				}
 			}
 		}
 	}
@@ -51,49 +96,84 @@
 
 <style>
 	.container {
+		flex: 1;
 		padding: 20px;
+		background-color: #f5f5f5;
 	}
 	
 	.header {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		margin-bottom: 40px;
+		margin-bottom: 30px;
+		text-align: center;
 	}
 	
 	.title {
-		font-size: 24px;
+		font-size: 28px;
 		font-weight: bold;
 		color: #333;
-		margin-bottom: 10px;
 	}
 	
 	.subtitle {
 		font-size: 16px;
 		color: #666;
+		margin-top: 5px;
 	}
 	
-	.section-title {
-		font-size: 18px;
-		font-weight: bold;
-		margin-bottom: 15px;
-		color: #333;
-	}
-	
-	.exercise-grid {
+	.training-types {
 		display: flex;
 		flex-direction: column;
+		gap: 20px;
 	}
 	
-	.exercise-item {
-		background-color: #f0f0f0;
-		border-radius: 8px;
-		padding: 15px;
-		margin-bottom: 10px;
+	.type-card {
+		background-color: white;
+		border-radius: 12px;
+		padding: 20px;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 	}
 	
-	.exercise-title {
-		font-size: 16px;
+	.type-title {
+		font-size: 20px;
+		font-weight: bold;
 		color: #333;
+		margin-bottom: 8px;
+	}
+	
+	.type-description {
+		font-size: 14px;
+		color: #666;
+		margin-bottom: 15px;
+	}
+	
+	.stats-preview {
+		display: flex;
+		justify-content: space-between;
+		font-size: 14px;
+		color: #888;
+	}
+	
+	.tab-bar {
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		height: 50px;
+		background-color: white;
+		display: flex;
+		border-top: 1px solid #eee;
+	}
+	
+	.tab-item {
+		flex: 1;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	
+	.tab-item.active {
+		color: #2196F3;
+	}
+	
+	.tab-text {
+		font-size: 14px;
 	}
 </style>

@@ -1,10 +1,10 @@
 <template>
   <view class="container">
     <IntervalExercise
-      title="所有旋律音程练习"
-      description="练习识别所有旋律音程，包括上行和下行"
-      category="all-intervals"
-      :is-harmonic="false"
+      title="Melodic Sixths"
+      description="听辨旋律小六度和大六度音程"
+      category="sixths"
+      :isHarmonic="false"
     />
   </view>
 </template>

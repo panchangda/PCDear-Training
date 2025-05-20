@@ -5,14 +5,21 @@
       <text class="exercise-description">{{ description }}</text>
     </view>
     
+    <view class="exercise-stats">
+      <view class="stats-row">
+        <text class="stats-label">今日: </text>
+        <text class="stats-value">{{ todayStats.accuracy }}% ({{ todayStats.total }}次)</text>
+      </view>
+      <view class="stats-row">
+        <text class="stats-label">总计: </text>
+        <text class="stats-value">{{ totalStats.accuracy }}% ({{ totalStats.total }}次)</text>
+      </view>
+    </view>
+    
     <view class="exercise-controls">
       <button class="play-button" @click="playCurrentInterval">
         <text>播放音程</text>
       </button>
-      
-      <view class="score-display">
-        <text class="score-text">得分: {{ score }} / {{ totalAttempts }}</text>
-      </view>
     </view>
     
     <view class="answer-options">
@@ -56,6 +63,7 @@
 
 <script>
 import audioService from '../utils/audioService.js';
+import statisticsService from '../utils/statisticsService.js';
 
 export default {
   props: {
@@ -85,16 +93,47 @@ export default {
       correctAnswer: null,
       showResult: false,
       isCorrect: false,
-      score: 0,
-      totalAttempts: 0
+      todayStats: { correct: 0, total: 0, accuracy: 0 },
+      totalStats: { correct: 0, total: 0, accuracy: 0 }
     };
   },
   
   created() {
+    this.loadStats();
     this.generateExercise();
   },
   
   methods: {
+    loadStats() {
+      const summary = statisticsService.getStatsSummary();
+      
+      // 获取特定分类的统计数据
+      const categoryKey = `${this.category}_${this.isHarmonic ? 'harmonic' : 'melodic'}`;
+      const allStats = uni.getStorageSync('all_training_stats') || {};
+      const today = new Date().toISOString().split('T')[0];
+      
+      // 今日详细统计数据
+      if (allStats[today] && 
+          allStats[today]['intervals_details'] && 
+          allStats[today]['intervals_details'][categoryKey]) {
+        const details = allStats[today]['intervals_details'][categoryKey];
+        this.todayStats = {
+          correct: details.correct,
+          total: details.total,
+          accuracy: details.total > 0 ? Math.round((details.correct / details.total) * 100) : 0
+        };
+      } else {
+        this.todayStats = { correct: 0, total: 0, accuracy: 0 };
+      }
+      
+      // 总体音程训练统计
+      this.totalStats = {
+        correct: summary.total.intervals.correct,
+        total: summary.total.intervals.total,
+        accuracy: summary.total.intervals.accuracy
+      };
+    },
+    
     generateExercise() {
       // Get intervals for the current category
       const intervalTypes = audioService.getIntervalsForCategory(this.category, this.isHarmonic);
@@ -156,55 +195,20 @@ export default {
       this.showResult = true;
       this.isCorrect = answer === this.correctAnswer;
       
-      // Update score
-      this.totalAttempts++;
-      if (this.isCorrect) {
-        this.score++;
-      }
+      // 记录训练结果
+      statisticsService.recordTrainingResult(
+        'intervals',     // 训练类型
+        this.category,   // 训练分类
+        this.isHarmonic, // 是否为和声音程
+        this.isCorrect   // 是否回答正确
+      );
+      
+      // 重新加载统计数据
+      this.loadStats();
     },
     
     nextExercise() {
       this.generateExercise();
-    },
-    
-    // 获取随机音程
-    getRandomInterval() {
-      // 获取当前类别的所有音程
-      const intervals = audioService.getIntervalsForCategory(this.category);
-      
-      // 获取所有可用的基础音符
-      const availableNotes = Object.keys(audioService.NOTE_FREQUENCIES);
-      
-      // 随机选择一个基础音符
-      const baseNote = availableNotes[Math.floor(Math.random() * availableNotes.length)];
-      
-      // 随机选择一个音程
-      const interval = intervals[Math.floor(Math.random() * intervals.length)];
-      
-      // 随机决定是上行还是下行（仅用于旋律音程）
-      const isAscending = Math.random() > 0.5;
-      
-      // 检查音程是否在范围内
-      const baseIndex = availableNotes.indexOf(baseNote);
-      const semitones = audioService.INTERVALS[interval];
-      
-      // 如果是上行音程，检查是否超出范围
-      if (isAscending && baseIndex + semitones >= availableNotes.length) {
-        // 如果超出范围，改为下行
-        return this.getRandomInterval();
-      }
-      
-      // 如果是下行音程，检查是否超出范围
-      if (!isAscending && baseIndex - semitones < 0) {
-        // 如果超出范围，改为上行
-        return this.getRandomInterval();
-      }
-      
-      return {
-        baseNote,
-        interval,
-        isAscending
-      };
     }
   }
 };
@@ -216,7 +220,7 @@ export default {
 }
 
 .exercise-header {
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   text-align: center;
 }
 
@@ -229,6 +233,30 @@ export default {
 .exercise-description {
   font-size: 16px;
   color: #666;
+}
+
+.exercise-stats {
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.stats-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.stats-label {
+  font-size: 14px;
+  color: #666;
+}
+
+.stats-value {
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
 }
 
 .exercise-controls {

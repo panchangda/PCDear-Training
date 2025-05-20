@@ -1,0 +1,133 @@
+<template>
+  <view class="container">
+    <view class="header">
+      <text class="title">三和弦训练</text>
+      <text class="subtitle">选择训练类型</text>
+    </view>
+    
+    <!-- 原位三和弦训练 -->
+    <view class="section">
+      <text class="section-title">原位三和弦</text>
+      <view class="exercise-grid">
+        <view class="exercise-item" @click="navigateTo('/pages/exercises/triads/major')">
+          <text class="exercise-title">大三和弦</text>
+          <text class="exercise-description">练习识别大三和弦</text>
+        </view>
+        
+        <view class="exercise-item" @click="navigateTo('/pages/exercises/triads/minor')">
+          <text class="exercise-title">小三和弦</text>
+          <text class="exercise-description">练习识别小三和弦</text>
+        </view>
+        
+        <view class="exercise-item" @click="navigateTo('/pages/exercises/triads/diminished')">
+          <text class="exercise-title">减三和弦</text>
+          <text class="exercise-description">练习识别减三和弦</text>
+        </view>
+        
+        <view class="exercise-item" @click="navigateTo('/pages/exercises/triads/augmented')">
+          <text class="exercise-title">增三和弦</text>
+          <text class="exercise-description">练习识别增三和弦</text>
+        </view>
+        
+        <view class="exercise-item" @click="navigateTo('/pages/exercises/triads/all-root')">
+          <text class="exercise-title">所有原位三和弦</text>
+          <text class="exercise-description">练习识别所有原位三和弦</text>
+        </view>
+      </view>
+    </view>
+    
+    <!-- 转位三和弦训练 -->
+    <view class="section">
+      <text class="section-title">转位三和弦</text>
+      <view class="exercise-grid">
+        <view class="exercise-item" @click="navigateTo('/pages/exercises/triads/first-inversion')">
+          <text class="exercise-title">第一转位</text>
+          <text class="exercise-description">练习识别三和弦第一转位</text>
+        </view>
+        
+        <view class="exercise-item" @click="navigateTo('/pages/exercises/triads/second-inversion')">
+          <text class="exercise-title">第二转位</text>
+          <text class="exercise-description">练习识别三和弦第二转位</text>
+        </view>
+        
+        <view class="exercise-item" @click="navigateTo('/pages/exercises/triads/all-inversions')">
+          <text class="exercise-title">所有转位</text>
+          <text class="exercise-description">练习识别所有三和弦转位</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+export default {
+  methods: {
+    navigateTo(url) {
+      uni.navigateTo({
+        url: url
+      });
+    }
+  }
+};
+</script>
+
+<style>
+.container {
+  flex: 1;
+  padding: 20px;
+  background-color: #f5f5f5;
+}
+
+.header {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: bold;
+  color: #333;
+}
+
+.subtitle {
+  font-size: 16px;
+  color: #666;
+  margin-top: 5px;
+}
+
+.section {
+  margin-bottom: 30px;
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.exercise-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.exercise-item {
+  background-color: white;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.exercise-title {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.exercise-description {
+  font-size: 14px;
+  color: #666;
+}
+</style> 

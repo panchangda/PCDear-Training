@@ -1,10 +1,10 @@
 <template>
   <view class="container">
     <IntervalExercise
-      title="所有和声音程练习"
-      description="练习识别所有和声音程"
+      title="All Harmonic Intervals"
+      description="听辨所有和声音程"
       category="all-intervals"
-      :is-harmonic="true"
+      :isHarmonic="true"
     />
   </view>
 </template>
