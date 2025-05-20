@@ -153,20 +153,7 @@ import statisticsService from '../../utils/statisticsService.js';
 export default {
   data() {
     return {
-      stats: {
-        today: {
-          overall: { accuracy: 0, total: 0 },
-          intervals: { accuracy: 0, total: 0 },
-          triads: { accuracy: 0, total: 0 },
-          seventhChords: { accuracy: 0, total: 0 }
-        },
-        total: {
-          overall: { accuracy: 0, total: 0 },
-          intervals: { accuracy: 0, total: 0 },
-          triads: { accuracy: 0, total: 0 },
-          seventhChords: { accuracy: 0, total: 0 }
-        }
-      },
+      stats: statisticsService.getDefaultStats(),
       activeTab: 'today' // 'today' or 'total'
     };
   },

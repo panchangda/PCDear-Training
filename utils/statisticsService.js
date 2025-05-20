@@ -10,6 +10,26 @@ function getCurrentDateString() {
 }
 
 /**
+ * 获取默认的 stats 空对象结构（用于 data() 初始化）
+ */
+function getDefaultStats() {
+  return {
+    today: {
+      intervals: { correct: 0, total: 0, accuracy: 0 },
+      triads: { correct: 0, total: 0, accuracy: 0 },
+      seventhChords: { correct: 0, total: 0, accuracy: 0 },
+      overall: { correct: 0, total: 0, accuracy: 0 }
+    },
+    total: {
+      intervals: { correct: 0, total: 0, accuracy: 0 },
+      triads: { correct: 0, total: 0, accuracy: 0 },
+      seventhChords: { correct: 0, total: 0, accuracy: 0 },
+      overall: { correct: 0, total: 0, accuracy: 0 }
+    }
+  };
+}
+
+/**
  * 记录训练结果
  * @param {string} trainingType - 训练类型，如 'intervals', 'triads', 'seventhChords'
  * @param {string} category - 训练分类，如 'seconds', 'thirds' 等
@@ -71,20 +91,7 @@ function updateSummaryStats() {
   const today = getCurrentDateString();
   
   // 初始化汇总数据
-  const summary = {
-    today: {
-      intervals: { correct: 0, total: 0, accuracy: 0 },
-      triads: { correct: 0, total: 0, accuracy: 0 },
-      seventhChords: { correct: 0, total: 0, accuracy: 0 },
-      overall: { correct: 0, total: 0, accuracy: 0 }
-    },
-    total: {
-      intervals: { correct: 0, total: 0, accuracy: 0 },
-      triads: { correct: 0, total: 0, accuracy: 0 },
-      seventhChords: { correct: 0, total: 0, accuracy: 0 },
-      overall: { correct: 0, total: 0, accuracy: 0 }
-    }
-  };
+  const summary = getDefaultStats();
   
   // 处理今日数据
   if (allStats[today]) {
@@ -191,8 +198,11 @@ function getStatsSummary() {
   };
 }
 
+
+
 export default {
   recordTrainingResult,
   getStatsSummary,
-  updateSummaryStats
+  updateSummaryStats,
+  getDefaultStats
 }; 

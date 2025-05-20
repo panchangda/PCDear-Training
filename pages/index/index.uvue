@@ -5,90 +5,63 @@
 			<text class="title">PCDear-Training</text>
 			<text class="subtitle">音乐听力训练</text>
 		</view>
-		
+
 		<!-- 训练类型选择 -->
 		<view class="training-types">
 			<view class="type-card" @click="navigateTo('/pages/exercises/intervals/index')">
 				<text class="type-title">音程训练</text>
 				<text class="type-description">练习识别各种音程</text>
 				<view class="stats-preview">
-					<text>准确率: {{ stats.intervals.accuracy }}%</text>
-					<text>训练次数: {{ stats.intervals.attempts }}</text>
+					<text>准确率: {{ stats.today.intervals.accuracy }}%</text>
+					<text>训练次数: {{ stats.today.intervals.total }}</text>
 				</view>
 			</view>
-			
+
 			<view class="type-card" @click="navigateTo('/pages/exercises/triads/index')">
 				<text class="type-title">三和弦训练</text>
 				<text class="type-description">练习识别各种三和弦</text>
 				<view class="stats-preview">
-					<text>准确率: {{ stats.triads.accuracy }}%</text>
-					<text>训练次数: {{ stats.triads.attempts }}</text>
+					<text>准确率: {{ stats.today.triads.accuracy }}%</text>
+					<text>训练次数: {{ stats.today.triads.total }}</text>
 				</view>
 			</view>
-			
+
 			<view class="type-card" @click="navigateTo('/pages/exercises/seventh-chords/index')">
 				<text class="type-title">七和弦训练</text>
 				<text class="type-description">练习识别各种七和弦</text>
 				<view class="stats-preview">
-					<text>准确率: {{ stats.seventhChords.accuracy }}%</text>
-					<text>训练次数: {{ stats.seventhChords.attempts }}</text>
+					<text>准确率: {{ stats.today.seventhChords.accuracy }}%</text>
+					<text>训练次数: {{ stats.today.seventhChords.total }}</text>
 				</view>
 			</view>
 		</view>
-		
-		<!-- 底部导航栏 
-		<!--
-		<view class="tab-bar">
-			<view class="tab-item active">
-				<text class="tab-text">首页</text>
-			</view>
-			<view class="tab-item" @click="navigateTo('/pages/profile/index')">
-				<text class="tab-text">我的</text>
-			</view>
-		</view>
-		-->
 	</view>
 </template>
 
 <script>
+	import statisticsService from '../../utils/statisticsService.js';
 	export default {
 		data() {
 			return {
-				stats: {
-					intervals: {
-						accuracy: 0,
-						attempts: 0
-					},
-					triads: {
-						accuracy: 0,
-						attempts: 0
-					},
-					seventhChords: {
-						accuracy: 0,
-						attempts: 0
-					}
-				}
+				stats: statisticsService.getDefaultStats()
 			}
 		},
-		
+
 		onShow() {
 			// 从本地存储加载统计数据
 			this.loadStats();
 		},
-		
+
 		methods: {
 			navigateTo(url) {
 				uni.navigateTo({
 					url: url
 				});
 			},
-			
+
 			loadStats() {
 				// 从本地存储加载统计数据
-				const stats = uni.getStorageSync('training_stats');
-				if (stats) {
-					this.stats = JSON.parse(stats);
-				}
+				this.stats = statisticsService.getStatsSummary();
 			}
 		}
 	}
@@ -100,57 +73,57 @@
 		padding: 20px;
 		background-color: #f5f5f5;
 	}
-	
+
 	.header {
 		margin-bottom: 30px;
 		text-align: center;
 	}
-	
+
 	.title {
 		font-size: 28px;
 		font-weight: bold;
 		color: #333;
 	}
-	
+
 	.subtitle {
 		font-size: 16px;
 		color: #666;
 		margin-top: 5px;
 	}
-	
+
 	.training-types {
 		display: flex;
 		flex-direction: column;
 		gap: 20px;
 	}
-	
+
 	.type-card {
 		background-color: white;
 		border-radius: 12px;
 		padding: 20px;
 		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 	}
-	
+
 	.type-title {
 		font-size: 20px;
 		font-weight: bold;
 		color: #333;
 		margin-bottom: 8px;
 	}
-	
+
 	.type-description {
 		font-size: 14px;
 		color: #666;
 		margin-bottom: 15px;
 	}
-	
+
 	.stats-preview {
 		display: flex;
 		justify-content: space-between;
 		font-size: 14px;
 		color: #888;
 	}
-	
+
 	.tab-bar {
 		position: fixed;
 		bottom: 0;
@@ -161,18 +134,18 @@
 		display: flex;
 		border-top: 1px solid #eee;
 	}
-	
+
 	.tab-item {
 		flex: 1;
 		display: flex;
 		justify-content: center;
 		align-items: center;
 	}
-	
+
 	.tab-item.active {
 		color: #2196F3;
 	}
-	
+
 	.tab-text {
 		font-size: 14px;
 	}
